@@ -3,9 +3,9 @@ import sys
 import docx
 from docx.shared import Inches, Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
+from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml import OxmlElement, parse_xml
-from docx.oxml.ns import nsdecls, qn
+from docx.oxml.ns import nsdecls
 
 def create_element(name):
     return OxmlElement(name)
@@ -34,7 +34,7 @@ def set_cell_border(cell, **kwargs):
         tcBorders.append(b_elm)
     tcPr.append(tcBorders)
 
-def build_document(output_path):
+def build_document(output_path, candidate_name="Mouli Kora", github_username="koramouli07-debug", repo_url="https://github.com/koramouli07-debug/Geospatial-Carbon-Biodiversity-Analytics-Platform"):
     doc = docx.Document()
 
     # Configure Margins (0.8 inches all around)
@@ -77,7 +77,8 @@ def build_document(output_path):
 
     meta_p = doc.add_paragraph()
     meta_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    meta_run = meta_p.add_run("Geospatial Intelligence Platform for Carbon Sequestration & Biodiversity Monitoring\nCandidate: Vidya Joshi  |  GitHub: @VidyaJoshi07")
+    profile_url = f"https://github.com/{github_username}"
+    meta_run = meta_p.add_run(f"Geospatial Intelligence Platform for Carbon Sequestration & Biodiversity Monitoring\nCandidate: {candidate_name}  |  GitHub: @{github_username}")
     meta_run.font.name = 'Calibri'
     meta_run.font.size = Pt(10)
     meta_run.font.color.rgb = COLOR_MUTED
@@ -161,8 +162,8 @@ def build_document(output_path):
         r.font.size = Pt(9.5)
 
     repo_data = [
-        ("Completed Project Repository", "https://github.com/VidyaJoshi07/Geospatial-Carbon-Biodiversity-Analytics-Platform"),
-        ("Candidate Profile", "https://github.com/VidyaJoshi07"),
+        ("Completed Project Repository", repo_url),
+        ("Candidate Profile", profile_url),
     ]
     for i, (k, v) in enumerate(repo_data, start=1):
         c0 = t_repo.cell(i, 0)
@@ -422,7 +423,7 @@ def build_document(output_path):
     doc.add_paragraph().paragraph_format.space_before = Pt(14)
     sig_p = doc.add_paragraph()
     sig_p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    sig_run = sig_p.add_run("Submitted with dedication for the Darukaa.Earth Full-Stack Hackathon Challenge.\nCandidate: Vidya Joshi  |  GitHub: @VidyaJoshi07")
+    sig_run = sig_p.add_run(f"Submitted with dedication for the Darukaa.Earth Full-Stack Hackathon Challenge.\nCandidate: {candidate_name}  |  GitHub: @{github_username}")
     sig_run.font.size = Pt(9.5)
     sig_run.font.italic = True
     sig_run.font.color.rgb = COLOR_MUTED
@@ -431,7 +432,19 @@ def build_document(output_path):
     print(f"Document successfully created at: {output_path}")
 
 if __name__ == '__main__':
-    dest1 = r"c:\Users\HP\OneDrive\Desktop\Geospatial Carbon & Biodiversity Analytics Platform\Darukaa_Earth_FullStack_Hackathon_Submission_VidyaJoshi07.docx"
-    dest2 = r"C:\Users\HP\Downloads\Darukaa_Earth_FullStack_Hackathon_Submission_VidyaJoshi07.docx"
-    build_document(dest1)
-    build_document(dest2)
+    # Generate for koramouli07-debug
+    name = "Mouli Kora"
+    username = "koramouli07-debug"
+    repo = "https://github.com/koramouli07-debug/Geospatial-Carbon-Biodiversity-Analytics-Platform"
+
+    dest_paths = [
+        r"c:\Users\HP\OneDrive\Desktop\Geospatial Carbon & Biodiversity Analytics Platform\Darukaa_Earth_FullStack_Hackathon_Submission_koramouli07-debug.docx",
+        r"c:\Users\HP\OneDrive\Desktop\Geospatial Carbon & Biodiversity Analytics Platform\Darukaa_Earth_FullStack_Hackathon_Submission_Mouli.docx",
+        r"C:\Users\HP\Downloads\Darukaa_Earth_FullStack_Hackathon_Submission_koramouli07-debug.docx",
+        r"C:\Users\HP\Downloads\Darukaa_Earth_FullStack_Hackathon_Submission_koramouli07_debug.docx",
+        r"C:\Users\HP\Downloads\Darukaa_Earth_FullStack_Hackathon_Submission_Mouli.docx",
+    ]
+
+    for p in dest_paths:
+        build_document(p, candidate_name=name, github_username=username, repo_url=repo)
+
